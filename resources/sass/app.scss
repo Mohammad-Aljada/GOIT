@@ -1,0 +1,55 @@
+// Fonts
+@import url("https://fonts.bunny.net/css?family=Nunito");
+
+// Variables
+@import "variables";
+
+// Bootstrap
+@import "bootstrap/scss/bootstrap";
+
+main {
+    @include background-image($home-bg);
+}
+
+//HPE page styles
+.HPE {
+    @include background-image($HPE-bg);
+}
+
+//Suport page styles
+.suport {
+    @include background-image($Suport-bg);
+}
+
+//DataCenter page styles
+.DataCenter {
+    @include background-image($DataCenter-bg);
+}
+
+//security page styles
+.infoSecurity {
+    @include background-image($security-bg);
+}
+
+//wireless page styles
+.wireless {
+    @include background-image($wireless-bg);
+}
+
+//cloud page styles
+.cloud {
+    @include background-image($cloud-bg);
+}
+
+.IPPBX {
+    @include background-image($home-bg);
+}
+
+.firewall {
+    @include background-image($home-bg);
+}
+
+//footer section styles
+footer {
+    @include background-image($footer-bg);
+}

@@ -1,0 +1,89 @@
+footer {
+    padding-top: 30px;
+}
+footer .row {
+    gap: 0;
+    align-items: center;
+}
+.FooterLeft {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px;
+}
+.FooterLeft .FooterLogo {
+    width: 60%;
+    object-fit: cover;
+}
+.FooterLeft p {
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    margin-left: 20px;
+}
+
+.FooterLeft .socialContact {
+    margin-left: 20px;
+}
+.FooterLeft .socialContact a {
+    background: var(--primary-color);
+}
+
+.FooterLeft .socialContact a:hover {
+    background: var(--blueDark-color);
+}
+.FooterRight {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+.FooterRight .footerLink {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.FooterRight .footerLink h3 {
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    border-bottom: 2px solid var(--secondry-color);
+}
+.footerLink nav {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.footerLink nav a {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.footerLink nav a span {
+    color: white;
+    font-size: 12px;
+}
+.footerLink nav a img {
+    width: 25px;
+    height: 25px;
+}
+
+@media screen and (max-width: 768px) {
+    footer {
+        padding-top: 50px;
+    }
+    footer .row {
+        gap: 20px;
+    }
+    .FooterLeft .FooterLogo {
+        width: 40%;
+        object-fit: cover;
+    }
+    .FooterRight {
+        gap: 20px;
+    }
+    .FooterLeft p {
+        font-size: 14px;
+    }
+}

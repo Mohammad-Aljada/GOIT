@@ -1,0 +1,98 @@
+section {
+    padding-bottom: 50px;
+}
+.Hero .heroRight img {
+    width: 80%;
+    opacity: 0.4;
+}
+.Hero .heroRight .imgRight {
+    width: 80%;
+    opacity: 1;
+}
+.heroLeft .heroleftinfo p {
+    font-size: 16px;
+    font-weight: 600;
+}
+.heroLeft .contentText p {
+    font-size: 28px;
+    font-weight: 600;
+}
+.heroLeft .contentText span {
+    font-size: 14px;
+    color: white;
+}
+.leftContentList li span,
+.rightContentList li span {
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+}
+.leftContentList li img,
+.rightContentList li img {
+    width: 20px;
+    height: 20px;
+}
+.ContentCompany {
+    border-radius: 30px;
+    padding: 0px 8px;
+    background: rgba(255, 255, 255, 0.11);
+    backdrop-filter: blur(2.6px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+.ContentCompany img {
+    width: 75px;
+    height: 75px;
+}
+
+@media screen and (max-width: 992px) {
+    .heroRight img {
+        width: 800px;
+        height: 400px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .heroContent {
+        flex-direction: column;
+    }
+
+    .Hero .heroRight img {
+        width: 100%;
+    }
+    .Hero .heroRight .imgRight {
+        width: 100%;
+    }
+    .ContentCompany img {
+        width: 50px;
+        height: 50px;
+    }
+    .heroleft .ContentDetails {
+        gap: 1rem !important;
+    }
+    .leftContentList li span,
+    .rightContentList li span {
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .heroleft .ContentDetails {
+        gap: 1rem !important;
+    }
+
+    .ContentCompany img {
+        width: 35px;
+        height: 35px;
+    }
+    .Hero .heroRight img {
+        display: block;
+    }
+    .leftContentList li span,
+    .rightContentList li span {
+        font-size: 16px;
+    }
+    .Hero .heroRight .imgRight {
+        width: 100%;
+        opacity: 1;
+    }
+}

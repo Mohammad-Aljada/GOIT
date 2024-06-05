@@ -1,0 +1,26 @@
+// Body
+$body-bg: #f8fafc;
+
+// Typography
+$font-family-sans-serif: "Nunito", sans-serif;
+$font-size-base: 0.9rem;
+$line-height-base: 1.6;
+
+//bg
+$home-bg: url("/public/image/mainbg.jpg");
+$HPE-bg: url("/public/image/pagesImage/HPE.jpg");
+$Suport-bg: url("/public/image/pagesImage/support.jpg");
+$DataCenter-bg: url("/public/image/pagesImage/DataCenter.jpg");
+$security-bg: url("/public/image/pagesImage/security.jpg");
+$wireless-bg: url("/public/image/pagesImage/wireless.jpg");
+$cloud-bg: url("/public/image/pagesImage/cloud.jpg");
+$footer-bg: url("/public/image/mainbg.jpg");
+
+@mixin background-image($image) {
+    background: {
+        image: $image;
+        size: cover;
+        repeat: no-repeat;
+        position: center;
+    }
+}

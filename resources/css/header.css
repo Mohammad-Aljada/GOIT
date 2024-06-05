@@ -1,0 +1,120 @@
+/* header */
+
+header {
+    background-image: url("/public/image/headerbg.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.link {
+    color: rgb(238, 244, 239);
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.link:hover {
+    color: var(--primary-color);
+    border-bottom: 1px solid var(--primary-color);
+}
+
+.headerInfo {
+    color: var(--primary-color);
+    font-size: 22px;
+    text-align: center;
+}
+.logo {
+    width: 120px;
+    height: 120px;
+}
+.pillars,
+.performance,
+.solutions {
+    color: white;
+    font-weight: 600;
+}
+.headerLink {
+    background-color: var(--secondry-color);
+    padding: 6px 30px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.headerLink:hover {
+    background-color: var(--blueDark-color);
+}
+
+.socialContact {
+    display: flex;
+    gap: 10px;
+}
+.socialContact a {
+    background: linear-gradient(
+        to right,
+        #31004c,
+        #30024f,
+        #2e085c,
+        #291271,
+        #24208e,
+        #222496
+    );
+    padding: 12px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.socialContact a:hover {
+    background: linear-gradient(
+        to right,
+        #30024f,
+        #2e085c,
+        #291271,
+        #24208e,
+        #222496
+    );
+}
+
+.socialContact img {
+    width: 15px;
+    height: 15px;
+}
+@media only screen and (max-width: 992px) {
+    .mylink {
+        margin-left: 0px;
+    }
+    .row {
+        gap: 10px;
+    }
+    .headerInfo {
+        color: var(--primary-color);
+        font-size: 18px;
+        text-align: center;
+    }
+}
+@media screen and (max-width: 768px) {
+    .row {
+        gap: 10px;
+    }
+    .headerInfo {
+        font-size: 14px;
+    }
+
+    .headerLink {
+        padding: 6px 18px;
+        font-size: 12px;
+    }
+    .socialContact a {
+        padding: 8px;
+    }
+
+    .socialContact img {
+        width: 10px;
+        height: 10px;
+    }
+}
+/* end header */
