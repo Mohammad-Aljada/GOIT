@@ -22,27 +22,24 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 //mettings
 Route::middleware('auth')->group(function () {
-    Route::get('/getallmeetings', [MeetingController::class, 'index']);
-    Route::post('/addmeeting', [MeetingController::class, 'store']);
+    Route::get('/getallmeetings', [MeetingController::class, 'index'])->name('meetings');
+    Route::post('/addmeeting', [MeetingController::class, 'store'])->name('addmeeting');
     Route::get('/getmeeting/{id}', [MeetingController::class, 'show']);
-    Route::put('/updatemeeting/{id}', [MeetingController::class, 'update']);
-    Route::delete('/deletemeeting/{id}', [MeetingController::class, 'destroy']);
+    Route::put('/updatemeeting/{id}', [MeetingController::class, 'update'])->name('updatemeeting');
+    Route::delete('/deletemeeting/{id}', [MeetingController::class, 'destroy'])->name('deletemeeting');
 });
-
-//services
 Route::middleware('auth')->group(function () {
     Route::get('/getallservices', [ServiceApiController::class, 'index']);
     Route::get('/getservice/{id}', [ServiceApiController::class, 'show']);
-    Route::post('/addservice', [ServiceApiController::class, 'store']);
-    Route::delete('/deleteservice/{id}', [ServiceApiController::class, 'destroy']);
-    Route::put('/updateservice/{id}', [ServiceApiController::class, 'update']);
+    Route::post('/addservice', [ServiceApiController::class, 'store'])->name('addservice');
+    Route::delete('/deleteservice/{id}', [ServiceApiController::class, 'destroy'])->name('deleteservice');
+    Route::put('/updateservice/{id}', [ServiceApiController::class, 'update'])->name('updateservice');
 });
-
 //companies
 Route::middleware('auth')->group(function () {
     Route::get('/getallcompanies', [CompanyController::class, 'index']);
     Route::get('/getcompany/{id}', [CompanyController::class, 'show']);
-    Route::post('/addcompany', [CompanyController::class, 'store']);
-    Route::delete('/deletecompany/{id}', [CompanyController::class, 'destroy']);
-    Route::put('/updatecompany/{id}', [CompanyController::class, 'update']);
+    Route::post('/addcompany', [CompanyController::class, 'store'])->name('addcompany');
+    Route::delete('/deletecompany/{id}', [CompanyController::class, 'destroy'])->name('deletecompany');
+    Route::put('/updatecompany/{id}', [CompanyController::class, 'update'])->name('updatecompany');
 });

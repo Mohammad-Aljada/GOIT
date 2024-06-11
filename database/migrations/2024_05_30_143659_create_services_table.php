@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('services', function (Blueprint $table) {
             $table->id("id")->primary();
             $table->string('services_name');
+            $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->string('image_url')->nullable();
             $table->timestamps();
@@ -26,5 +27,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('services');
+        Schema::create('services', function (Blueprint $table) {
+        $table->dropColumn('slug');
+        });
     }
 };

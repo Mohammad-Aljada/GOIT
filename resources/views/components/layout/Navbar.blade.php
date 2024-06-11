@@ -11,7 +11,7 @@
                     <a class="nav-link  link" aria-current="page" href="#">HOW IT WORKS</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link link" href="{{ route('services') }}">OUR SERVICES</a>
+                    <a class="nav-link link" href="{{ route('ourservices.index') }}">OUR SERVICES</a>
                 </li>
 
                 <li class="nav-item">

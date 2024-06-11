@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Mckenziearts\Notify\Facades\LaravelNotify;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -29,6 +30,8 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        LaravelNotify::success('successfully logged in!', 'success');
+
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
@@ -38,11 +41,9 @@ class AuthenticatedSessionController extends Controller
     public function destroy(Request $request): RedirectResponse
     {
         Auth::guard('web')->logout();
-
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
-
+        LaravelNotify::success('successfully logged out!', 'success');
         return redirect('/');
     }
 }

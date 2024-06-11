@@ -1,21 +1,19 @@
 @vite(['resources/css/main.css'])
+<?php $service = App\Models\Service::where('services_name', 'Wireless Solutions')->first(); ?>
 
 @extends('layouts.mastring')
 
-@section('title', 'GOIT')
 
 @section('content')
 
     <section class="wireless">
         <div class="container">
             <div class="row">
-                               <x-navbar></x-navbar>
-
-
+                <x-layout.navbar></x-layout.navbar>
                 <div class="heroContent">
                     <div class="heroLeft">
                         <div class="heroleftinfo">
-                            <h2>Wireless Solutions</h2>
+                            <h2>{{ $service->services_name }}</h2>
                             <p>Planning & design the WLAN network and propose
                                 the most efficient devices with installation as organization
                                 requirements (User's, Quota, Filtering, SSID ...etc),
@@ -34,8 +32,8 @@
                                         alt="arrow right icone"> <span>Software Controller</span></li>
                             </ul>
                         </div>
+                        <x-company.content.companyImages :service="$service"></x-company.content.companyImages>
                     </div>
-
                 </div>
             </div>
         </div>

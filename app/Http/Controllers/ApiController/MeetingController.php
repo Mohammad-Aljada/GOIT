@@ -7,6 +7,7 @@ use App\Models\Meetings;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Mckenziearts\Notify\Facades\LaravelNotify;
 
 class MeetingController extends Controller
 {
@@ -15,50 +16,32 @@ class MeetingController extends Controller
     {
         try {
             $meetings = Meetings::all();
-            return response()->json([
-                'status' => 'true',
-                'message' => 'all Meetings fetched successfully',
-                'meetings' => $meetings,
-            ], 200);
+            return view('admin.Meetings', compact('meetings'));
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'false',
-                'error' => 'Failed to fetch meetings', 'message' => $e->getMessage()
-            ], 500);
+            return view('admin.Meetings', ['error' => 'Failed to fetch meetings']);
         }
     }
 
     // Create a new meeting
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'date' => 'required|date_format:Y-m-d',
-            'time' => 'required|date_format:H:i:s',
-            'location' => 'nullable|string|max:255',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 'false',
-                'errors' => $validator->errors()
-            ], 400);
-        }
 
         try {
-            $meeting = Meetings::create($validator->validated());
-            return response()->json([
-                'status' => 'true',
-                'message' => 'Meeting created successfully',
-                'meeting' => $meeting
-            ], 201);
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'date' => 'required|date',
+                'time' => 'required|date_format:H:i',
+                'location' => 'required|nullable|string|max:255',
+            ]);
+
+            Meetings::create($request->all());
+
+            LaravelNotify::success('Meeting added successfully!', 'Success');
+            return redirect()->back();
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'false',
-                'error' => 'Failed to create meeting',
-                'message' => $e->getMessage()
-            ], 500);
+            LaravelNotify::error('Failed to add meeting ' . $e->getMessage() . '!', 'Error');
+            return redirect()->back();
         }
     }
 
@@ -67,11 +50,8 @@ class MeetingController extends Controller
     {
         try {
             $meeting = Meetings::findOrFail($id);
-            return response()->json([
-                'status' => 'true',
-                'message' => 'Meeting fetched successfully',
-                'meeting' => $meeting
-            ], 200);
+            return view('index', ['meeting' => $meeting]);
+
         } catch (ModelNotFoundException $e) {
             return response()->json([
                 'status' => 'false',
@@ -97,28 +77,23 @@ class MeetingController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'status' => 'false', 'errors' => $validator->errors()], 400);
+            $errors = $validator->errors()->all();
+            $errorMessage = implode(', ', $errors);
+            LaravelNotify::error('Failed to update meeting ' . $errorMessage . '!', 'Error');
+            return redirect()->back();
         }
 
         try {
             $meeting = Meetings::findOrFail($id);
             $meeting->update($validator->validated());
-            return response()->json([
-                'status' => 'true',
-                'message' => 'Meeting updated successfully',
-                'meeting' => $meeting
-            ], 200);
+            LaravelNotify::success('Meeting updated successfully!', 'Success');
+            return redirect()->back();
         } catch (ModelNotFoundException $e) {
-            return response()->json([
-                'status' => 'false',
-                'error' => 'Meeting not found'
-            ], 404);
+            LaravelNotify::error('Failed to update meeting ' . $e->getMessage() . '!', 'Error');
+            return redirect()->back();
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'false',
-                'error' => 'Failed to update meeting', 'message' => $e->getMessage()
-            ], 500);
+            LaravelNotify::error('Failed to update meeting ' . $e->getMessage() . '!', 'Error');
+            return redirect()->back();
         }
     }
 
@@ -128,21 +103,14 @@ class MeetingController extends Controller
         try {
             $meeting = Meetings::findOrFail($id);
             $meeting->delete();
-            return response()->json([
-                'status' => 'true',
-                'message' => 'Meeting deleted successfully',
-                'meeting' => null,
-            ], 200);
+            LaravelNotify::success('successfully deleted meeting!', 'success');
+            return redirect()->back();
         } catch (ModelNotFoundException $e) {
-            return response()->json([
-                'status' => 'false',
-                'error' => 'Meeting not found'
-            ], 404);
+            LaravelNotify::error('Failed to delete meeting ' . $e->getMessage() . '!', 'Error');
+            return redirect()->back();
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => 'false',
-                'error' => 'Failed to delete meeting', 'message' => $e->getMessage()
-            ], 500);
+            LaravelNotify::error('Failed to delete meeting ' . $e->getMessage() . '!', 'Error');
+            return redirect()->back();
         }
     }
 }

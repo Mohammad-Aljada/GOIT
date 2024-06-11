@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Mckenziearts\Notify\Facades\LaravelNotify;
 
 class ProfileController extends Controller
 {
@@ -33,6 +34,7 @@ class ProfileController extends Controller
         }
 
         $request->user()->save();
+        LaravelNotify::success('success', 'profile-updated', 'Profile updated successfully');
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
@@ -55,6 +57,7 @@ class ProfileController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
+        LaravelNotify::success('successfully Deleted Account!', 'success');
         return Redirect::to('/');
     }
 }

@@ -1,21 +1,21 @@
 @vite(['resources/css/main.css'])
+<?php $service = App\Models\Service::where('services_name', 'Firewall Protection')->first(); ?>
 
 @extends('layouts.mastring')
 
-@section('title', 'GOIT')
 
 @section('content')
 
     <section class="firewall">
         <div class="container">
             <div class="row">
-                               <x-navbar></x-navbar>
+                               <x-layout.navbar></x-layout.navbar>
 
 
                 <div class="heroContent">
                     <div class="heroLeft">
                         <div class="heroleftinfo">
-                            <h2>Firewall Protection</h2>
+                            <h2>{{ $service->services_name }}</h2>
                           <p>Firewall is acting as the guard against malicious traffic,
                             data loss, and unauthorized access, we provide main
                             brands (Fortinet, Sophos). The world's best visibility,
@@ -40,6 +40,7 @@
                                         alt="arrow right icone"> <span>Internet Access & Filteringt </span></li>
                             </ul>
                         </div>
+                        <x-company.content.companyImages :service="$service"></x-company.content.companyImages>
                     </div>
                     <div class="heroRight">
                         <img class="imgRight" src="/image/pagesImage/Firewall.png" alt="Firewall Protection image">

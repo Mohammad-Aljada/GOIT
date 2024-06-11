@@ -1,19 +1,19 @@
 @vite(['resources/css/main.css'])
+<?php $service = App\Models\Service::where('services_name', 'IP PBX Solutions')->first(); ?>
 
 @extends('layouts.mastring')
 
-@section('title', 'GOIT')
 
 @section('content')
     <section class="IPPBX">
         <div class="container">
             <div class="row">
-                               <x-navbar></x-navbar>
+                <x-layout.navbar></x-layout.navbar>
 
                 <div class="heroContent">
                     <div class="heroLeft">
                         <div class="heroleftinfo">
-                            <h2>IP PBX Solutions</h2>
+                            <h2>{{ $service->services_name }}</h2>
                             <p>Making meeting simpler. Easy to install using Ethernet
                                 cable, easy to manage, modular and scalable, call
                                 recording, call control, (IVR), CDR Reports, call features
@@ -38,12 +38,7 @@
                                         alt="arrow right icone"> <span>Mobile Application</span></li>
                             </ul>
                         </div>
-                        <div class="ContentCompany d-flex flex-wrap align-items-center justify-content-around">
-                            <img src="/image/company/yeastar.svg" alt="Yeastar company image">
-                            <img src="/image/company/GrandStream.svg" alt="GrandStream Company image">
-                            <img src="/image/company/YeaLink.svg" alt="YeaLink Company image">
-                            <img src="/image/company/zycoo.svg" alt="Zycoo Company image">
-                        </div>
+                        <x-company.content.companyImages :service="$service"></x-company.content.companyImages>
                     </div>
                     <div class="heroRight">
                         <img class="imgRight" src="/image/pagesImage/IPPBX.png" alt="IP PBX Solutions image">

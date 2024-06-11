@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Service;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Support\Facades\Validator;
+use Mckenziearts\Notify\Facades\LaravelNotify;
+use Illuminate\Support\Str;
 
 class ServiceApiController extends Controller
 {
@@ -14,17 +16,9 @@ class ServiceApiController extends Controller
     {
         try {
             $services = Service::with('companies')->get();
-            return response()->json([
-                'status' => true,
-                'message' => 'Services fetched successfully',
-                'services' => $services
-            ], 201);
+            return view('admin.Services', compact('services'));
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Failed to fetch services',
-                'error' => $e->getMessage()
-            ], 500);
+            return view('admin.Services', ['error' => 'Failed to fetch services']);
         }
     }
 
@@ -32,42 +26,37 @@ class ServiceApiController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'services_name' => 'required|string|max:255',
+            'slug' => 'sometimes|required|string|max:255',
             'description' => 'nullable|string',
-            'image_url' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image_url' => 'required|nullable|image|mimes:jpeg,png,svg,jpg,gif|max:2048',
             'company_id' => 'sometimes|required|array',
             'company_id.*' => 'exists:companies,id',
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Validation failed',
-                'errors' => $validator->errors()
-            ], 400);
+            $errors = $validator->errors()->all();
+            $errorMessage = implode(', ', $errors);
+            LaravelNotify::error('Failed to add service ' . $errorMessage . '!', 'Error');
+            return redirect()->back();
         }
 
         try {
-            $data = $validator->validated();
+            $uploadedFile = $request->file('image_url');
+            $uploadedFileUrl = Cloudinary::upload($uploadedFile->getRealPath())->getSecurePath();
 
-            if ($request->hasFile('image_url')) {
-                $uploadedFileUrl = Cloudinary::upload($request->file('image_url')->getRealPath())->getSecurePath();
-                $data['image_url'] = $uploadedFileUrl;
-            }
+            $service = new Service();
+            $service->services_name = $request->services_name;
+            $service->slug = Str::slug($request->services_name);
+            $service->description = $request->description;
+            $service->image_url = $uploadedFileUrl;
+            $service->save();
 
-            $service = Service::create($data);
-            $service->companies()->attach($data['company_id']);
 
-            return response()->json([
-                'status' => true,
-                'message' => 'Service created successfully',
-                'service' => $service
-            ], 201);
+            LaravelNotify::success('service added successfully!', 'Success');
+            return redirect()->back();
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Failed to create service',
-                'error' => $e->getMessage()
-            ], 500);
+            LaravelNotify::error('Failed to add service ' . $e->getMessage() . '!', 'Error');
+            return redirect()->back();
         }
     }
 
@@ -103,11 +92,10 @@ class ServiceApiController extends Controller
             ]);
 
             if ($validator->fails()) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Validation failed',
-                    'errors' => $validator->errors()
-                ], 400);
+                $errors = $validator->errors()->all();
+                $errorMessage = implode(', ', $errors);
+                LaravelNotify::error('Failed to update service ' . $errorMessage . '!', 'Error');
+                return redirect()->back();
             }
 
             $data = $validator->validated();
@@ -116,24 +104,12 @@ class ServiceApiController extends Controller
                 $uploadedFile = Cloudinary::upload($request->file('image_url')->getRealPath());
                 $data['image_url'] = $uploadedFile->getSecurePath();
             }
-
-            if (isset($data['company_id'])) {
-                $service->companies()->sync($data['company_id']);
-            }
-
             $service->update($data);
-
-            return response()->json([
-                'status' => true,
-                'message' => 'Service updated successfully',
-                'service' => $service
-            ], 201);
+            LaravelNotify::success('service updated successfully!', 'Success');
+            return redirect()->back();
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Failed to update service',
-                'error' => $e->getMessage()
-            ], 500);
+            LaravelNotify::error('Failed to update service ' . $e->getMessage() . '!', 'Error');
+            return redirect()->back();
         }
     }
 
@@ -144,17 +120,11 @@ class ServiceApiController extends Controller
 
             $service->delete();
 
-            return response()->json([
-                'status' => true,
-                'message' => 'Service deleted successfully',
-                'service' => $service
-            ], 201);
+            LaravelNotify::success('successfully deleted service!', 'success');
+            return redirect()->back();
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Failed to delete service',
-                'error' => $e->getMessage()
-            ], 500);
+            LaravelNotify::error('Failed to delete service ' . $e->getMessage() . '!', 'Error');
+            return redirect()->back();
         }
     }
 }

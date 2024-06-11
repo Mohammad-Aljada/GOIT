@@ -1,19 +1,19 @@
 @vite(['resources/css/main.css'])
+<?php $service = App\Models\Service::where('services_name', 'Cloud Computing')->first(); ?>
 
 @extends('layouts.mastring')
 
-@section('title', 'GOIT')
 
 @section('content')
 
     <section class="cloud">
         <div class="container">
             <div class="row">
-                <x-navbar></x-navbar>
+                <x-layout.navbar></x-layout.navbar>
                 <div class="heroContent">
                     <div class="heroLeft">
                         <div class="heroleftinfo">
-                            <h2>Cloud Computing</h2>
+                            <h2>{{ $service->services_name }}</h2>
                         </div>
                         <div class="ContentDetails d-flex gap-5 flex-wrap">
                             <ul class="leftContentList d-flex flex-wrap gap-3 flex-column">
@@ -27,11 +27,7 @@
                                         alt="arrow right icone"> <span>VDI & RDP (Remote Desktop)</span></li>
                             </ul>
                         </div>
-                        <div class="ContentCompany d-flex flex-wrap align-items-center justify-content-around">
-                            <img src="/image/company/aws.svg" alt="Aws company image">
-                            <img src="/image/company/Google_Cloud.svg" alt="Google Cloud Company image">
-                            <img src="/image/company/Azure.svg" alt="Azure Company image">
-                        </div>
+                        <x-company.content.companyImages :service="$service"></x-company.content.companyImages>
                     </div>
                 </div>
             </div>

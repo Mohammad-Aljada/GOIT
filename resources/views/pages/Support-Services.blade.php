@@ -1,20 +1,20 @@
 @vite(['resources/css/main.css'])
+<?php $service = App\Models\Service::where('services_name', 'Support Services')->first(); ?>
 
 @extends('layouts.mastring')
 
-@section('title', 'GOIT')
 
 @section('content')
 
     <section class="suport">
         <div class="container">
             <div class="row">
-                               <x-navbar></x-navbar>
+                               <x-layout.navbar></x-layout.navbar>
 
                 <div class="heroContent">
                     <div class="heroLeft">
                         <div class="heroleftinfo">
-                            <h2>Support Services</h2>
+                            <h2>{{ $service->services_name }}</h2>
                             <div class="contentText d-flex flex-column gap-1">
                                 <p>Help Desk Support</p>
                                 <span>Maintenance contracts</span>
@@ -40,6 +40,7 @@
                                         Expected Maintenance</span></li>
                             </ul>
                         </div>
+                        <x-company.content.companyImages :service="$service"></x-company.content.companyImages>
                     </div>
                 </div>
             </div>

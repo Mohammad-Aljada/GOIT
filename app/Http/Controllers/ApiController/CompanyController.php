@@ -7,6 +7,7 @@ use App\Models\Company;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Mckenziearts\Notify\Facades\LaravelNotify;
 
 class CompanyController extends Controller
 {
@@ -14,17 +15,9 @@ class CompanyController extends Controller
     {
         try {
             $companies = Company::with('services')->get();
-            return response()->json([
-                'status' => true,
-                'message' => 'Companies fetched successfully',
-                'companies' => $companies
-            ], 201);
+            return view('admin.Companies', compact('companies'));
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Failed to fetch companies',
-                'error' => $e->getMessage()
-            ], 500);
+            return view('admin.Companies', ['error' => 'Failed to fetch companies']);
         }
     }
 
@@ -51,17 +44,16 @@ class CompanyController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'companies_name' => 'required|string|max:255',
-                'companies_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'companies_image' => 'required|nullable|image|mimes:jpeg,png,svg,jpg,gif|max:2048',
                 'service_id' => 'sometimes|required|array',
                 'service_id.*' => 'exists:services,id',
             ]);
 
             if ($validator->fails()) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Validation failed',
-                    'errors' => $validator->errors()
-                ], 400);
+                $errors = $validator->errors()->all();
+                $errorMessage = implode(', ', $errors);
+                LaravelNotify::error('Failed to add company ' . $errorMessage . '!', 'Error');
+                return redirect()->back();
             }
 
             $data = $validator->validated();
@@ -74,17 +66,11 @@ class CompanyController extends Controller
             $company = Company::create($data);
             $company->services()->attach($data['service_id']);
 
-            return response()->json([
-                'status' => true, 'message' =>
-                'Company created successfully',
-                'company' => $company
-            ], 201);
+            LaravelNotify::success('Company added successfully!', 'Success');
+            return redirect()->back();
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Failed to create company',
-                'error' => $e->getMessage()
-            ], 500);
+            LaravelNotify::error('Failed to add company ' . $e->getMessage() . '!', 'Error');
+            return redirect()->back();
         }
     }
 
@@ -101,11 +87,10 @@ class CompanyController extends Controller
             ]);
 
             if ($validator->fails()) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Validation failed',
-                    'errors' => $validator->errors()
-                ], 400);
+                $errors = $validator->errors()->all();
+                $errorMessage = implode(', ', $errors);
+                LaravelNotify::error('Failed to update company ' . $errorMessage . '!', 'Error');
+                return redirect()->back();
             }
 
             $data = $validator->validated();
@@ -119,17 +104,11 @@ class CompanyController extends Controller
                 $company->services()->sync($data['service_id']);
             }
             $company->update($data);
-            return response()->json([
-                'status' => true,
-                'message' => 'Company updated successfully',
-                'company' => $company
-            ], 201);
+            LaravelNotify::success('Company updated successfully!', 'Success');
+            return redirect()->back();
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Failed to update company',
-                'error' => $e->getMessage()
-            ], 500);
+            LaravelNotify::error('Failed to update company ' . $e->getMessage() . '!', 'Error');
+            return redirect()->back();
         }
     }
 
@@ -138,17 +117,11 @@ class CompanyController extends Controller
         try {
             $company = Company::findOrFail($id);
             $company->delete();
-            return response()->json([
-                'status' => true,
-                'message' => 'Company deleted successfully',
-                'company' => null
-            ], 201);
+            LaravelNotify::success('successfully deleted company!', 'success');
+            return redirect()->back();
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Failed to delete company',
-                'error' => $e->getMessage()
-            ], 500);
+            LaravelNotify::error('Failed to delete company ' . $e->getMessage() . '!', 'Error');
+            return redirect()->back();
         }
     }
 }

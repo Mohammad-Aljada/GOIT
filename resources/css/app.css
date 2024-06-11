@@ -1,8 +1,47 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "bootstrap/dist/css/bootstrap.min.css";
 
-img{
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+img {
     width: 120px;
     height: 120px;
+}
+
+.edit,
+.delete,
+.add {
+    width: 25px;
+    height: 25px;
+}
+.btn-text {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.image-thumbnail {
+    width: 60px;
+    height: 60px;
+}
+
+.form-container.hidden {
+    display: none;
+}
+.form-container {
+    margin-top: 1rem;
+}
+
+@media screen and (max-width: 576px) {
+    .edit,
+    .delete,
+    .add {
+        width: 20px;
+        height: 20px;
+    }
+
+    .image-thumbnail {
+        width: 40px;
+        height: 40px;
+    }
 }

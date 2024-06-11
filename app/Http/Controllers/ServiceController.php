@@ -2,53 +2,43 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Service;
 use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
 
-    public function services()
+    public function ourservices()
     {
-        return view('Services');
+        $services = Service::all();
+        return view('Services', compact('services'));
     }
 
-    public function informationSecurity()
+    public function show($slug)
     {
-        return view('pages.Information-Security');
+        $service = Service::where('slug', $slug)->firstOrFail();
+        $view = $this->getViewName($slug);
+
+        if (view()->exists($view)) {
+            return view($view, compact('service'));
+        }
+
+        return abort(404);
     }
 
-    public function supportServices()
+    private function getViewName($slug)
     {
-        return view('pages.Support-Services');
-    }
+        $viewMap = [
+            'Information-Security' => 'pages.Information-Security',
+            'Support-Services' => 'pages.Support-Services',
+            'IP-PBX' => 'pages.IP-PBX',
+            'Wireless-Solutions' => 'pages.Wireless-Solutions',
+            'HPE-Solution' => 'pages.HPE-Solution',
+            'Data-Center-Solutions' => 'pages.Data-Center-Solutions',
+            'Cloud-Computing' => 'pages.Cloud-Computing',
+            'Firewall-Protection' => 'pages.Firewall-Protection',
+        ];
 
-    public function iPPbx()
-    {
-        return view('pages.IP-PBX');
-    }
-
-    public function wirelessSolutions()
-    {
-        return view('pages.Wireless-Solutions');
-    }
-
-    public function hpeSolution()
-    {
-        return view('pages.HPE-Solution');
-    }
-
-    public function dataCenterSolutions()
-    {
-        return view('pages.Data-Center-Solutions');
-    }
-
-    public function cloudComputing()
-    {
-        return view('pages.Cloud-Computing');
-    }
-
-    public function firewallProtection()
-    {
-        return view('pages.Firewall-Protection');
+        return $viewMap[$slug] ?? 'services.show';
     }
 }

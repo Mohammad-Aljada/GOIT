@@ -1,21 +1,19 @@
 @vite(['resources/css/main.css'])
+<?php $service = App\Models\Service::where('services_name', 'HPE Solutions')->first(); ?>
 
 @extends('layouts.mastring')
 
-@section('title', 'GOIT')
 
 @section('content')
 
     <section class="HPE">
         <div class="container">
             <div class="row">
-                               <x-navbar></x-navbar>
-
-
+                <x-layout.navbar></x-layout.navbar>
                 <div class="heroContent">
                     <div class="heroLeft">
                         <div class="heroleftinfo">
-                            <h2>HPE Solutions</h2>
+                            <h2>{{ $service->services_name }}</h2>
                             <p>We are in the acceleration business technology that fuels
                                 transformation solutions you need to succeed innovating
                                 for today and tomorrow it solutions that drive the digital
@@ -32,6 +30,7 @@
                                         alt="arrow right icone"> <span>Networking</span></li>
                             </ul>
                         </div>
+                        <x-company.content.companyImages :service="$service"></x-company.content.companyImages>
                     </div>
                     <div class="heroRight">
                     </div>

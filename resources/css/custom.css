@@ -1,5 +1,3 @@
-@import "bootstrap/dist/css/bootstrap.min.css";
-
 /*public style*/
 * {
     padding: 0;
@@ -22,11 +20,9 @@ ul {
 .navbar-toggler {
     background-color: var(--secondry-color) !important;
 }
-
 header,
 section,
 footer,
-div,
 main {
     opacity: 0;
     transition: opacity 1s ease, transform 1s ease;
@@ -35,13 +31,11 @@ main {
 header.in-view,
 section.in-view,
 footer.in-view,
-div.in-view,
 main.in-view {
     opacity: 1;
     animation: fadeIn 2s ease-in-out;
 }
 
-/*animation */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -71,7 +65,7 @@ main.in-view {
 .heroleftinfo {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 10px;
     border-left: 2px solid white;
     padding: 0 20px;
 }
@@ -83,7 +77,12 @@ main.in-view {
 .heroleftinfo p {
     color: white;
     font-size: 16px;
-    font-weight: 400;
+    font-weight: 600;
+}
+.heroleftinfo span {
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
 }
 .Timer p {
     color: white;
@@ -160,6 +159,9 @@ span {
     .heroleftinfo p {
         font-size: 14px;
     }
+    .heroleftinfo span {
+        font-size: 14px;
+    }
     .heroLeft {
         width: 90%;
     }
@@ -180,6 +182,9 @@ span {
     .heroleftinfo p {
         font-size: 14px;
     }
+    .heroleftinfo span {
+        font-size: 14px;
+    }
     .heroRight img {
         width: 200px;
         height: 200px;
@@ -195,6 +200,9 @@ span {
         font-size: 20px;
     }
     .heroleftinfo p {
+        font-size: 12px;
+    }
+    .heroleftinfo span {
         font-size: 14px;
     }
     .heroRight img {
@@ -356,25 +364,3 @@ span {
 }
 
 /*end services*/
-
-/*login*/
-.login {
-    width: 45%;
-}
-.login button {
-    background-color: var(--secondry-color);
-    border: 1px solid var(--secondry-color);
-}
-.login button:hover {
-    background-color: var(--blueDark-color);
-}
-@media screen and (max-width: 768px) {
-    .login {
-        width: 70%;
-    }
-}
-@media screen and (max-width: 576px) {
-    .login {
-        width: 90%;
-    }
-}

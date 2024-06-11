@@ -1,19 +1,19 @@
 @vite(['resources/css/main.css'])
+<?php $service = App\Models\Service::where('services_name', 'Data Center Solutions')->first(); ?>
 
 @extends('layouts.mastring')
 
-@section('title', 'GOIT')
 
 @section('content')
 
     <section class="DataCenter">
         <div class="container">
             <div class="row">
-                <x-navbar></x-navbar>
+                <x-layout.navbar></x-layout.navbar>
                 <div class="heroContent">
                     <div class="heroLeft">
                         <div class="heroleftinfo">
-                            <h2>Data Center Solutions</h2>
+                            <h2>{{ $service->services_name }}</h2>
                             <p>GoIT team has ability and high efficiency to design
                                 and build data center with all options of global standards.
                                 using best hardware and software systems.
@@ -35,6 +35,7 @@
                                         alt="arrow right icone"> <span>Linux Solutions - Open Source</span></li>
                             </ul>
                         </div>
+                        <x-company.content.companyImages :service="$service"></x-company.content.companyImages>
                     </div>
                 </div>
             </div>
