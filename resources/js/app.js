@@ -43,3 +43,4 @@ window.addEventListener("scroll", checkElementsInView);
 
 
 
+
