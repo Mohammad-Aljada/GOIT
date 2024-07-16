@@ -1,12 +1,11 @@
 {
     "version": 2,
     "name": "goit",
-    "builds": [
-        {
-          "src": "api/index.php",
-          "use": "@vercel/php"
+    "functions": {
+        "api/*.php": {
+          "runtime": "vercel-php@0.3.6"
         }
-      ],
+      },
 
     "routes": [
       {
